@@ -1,7 +1,6 @@
+import javax.sound.sampled.*;
 import java.io.*;
 import java.net.*;
-
-import javax.sound.sampled.*;
 
 public class PlayerRecording {
     

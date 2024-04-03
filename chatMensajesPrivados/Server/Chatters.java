@@ -120,7 +120,8 @@ public class Chatters {
         }
         for (Person p : clientes) {
             if (recipientName.equals(p.getName())) {
-                p.getOut().println("[Private audio from " + senderName + "] ")p.getOut().println("Reproduciendo");
+                p.getOut().println("[Private audio from " + senderName + "] ");
+                p.getOut().println("Reproduciendo");
                 p.getAudioRecorder().reproduceAudio(byteArrayOutputStream);
             }
         }

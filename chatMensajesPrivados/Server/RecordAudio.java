@@ -1,10 +1,9 @@
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
+import java.io.ByteArrayOutputStream;
+import java.util.concurrent.TimeUnit;
 
 public class RecordAudio implements Runnable{
     private AudioFormat format;

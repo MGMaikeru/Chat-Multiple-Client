@@ -39,6 +39,7 @@ public class Client {
             System.out.println("Para enviar un mensaje a un grupo, use el formato 'SENDTOGROUP,<nombre_del_grupo>,<mensaje>'");
             System.out.println("Para enviar un audio a un grupo, use el formato 'SENDAUDIOTOGROUP,<nombre_del_grupo>'");
             System.out.println("Para enviar un audio privado, use el formato 'SENDPRIVATEAUDIO,<nombre_del_usuario>'");
+            System.out.println("Para enviar un mensaje privado, use el formato 'SENDPRIVATEMESSAGE,<nombre_del_usuario>,<mensaje>'");
             while (true) {
                 String input = userInput.readLine();
                 if (input.equalsIgnoreCase("exit")) {
