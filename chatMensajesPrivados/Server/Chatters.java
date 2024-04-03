@@ -109,7 +109,21 @@ public class Chatters {
 
     }
 
-    public void reproduceVoiceMessage(){
+    public void sendPrivateVoiceMessage(String senderName, String recipientName){
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        for (Person p: clientes) {
+            if (senderName == p.getName()){
+                p.getOut().println("Grabando...");
+                byteArrayOutputStream = p.getAudioRecorder().recordAudio();
+                p.getOut().println("Grabacion terminada");
+            }
+        }
+        for (Person p : clientes) {
+            if (recipientName.equals(p.getName())) {
+                p.getOut().println("[Private audio from " + senderName + "] ")p.getOut().println("Reproduciendo");
+                p.getAudioRecorder().reproduceAudio(byteArrayOutputStream);
+            }
+        }
 
     }
 

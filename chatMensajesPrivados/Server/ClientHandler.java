@@ -63,10 +63,14 @@ public class ClientHandler implements Runnable {
                     String groupName = parts[1];
                     String content = parts[2];
                     clients.sendMessageToGroup(groupName, clientName, content);
-                } else if (message.startsWith("SENDAUDIO")){
+                } else if (message.startsWith("SENDAUDIOTOGROUP")){
                     String[] parts = message.split(",", 3);
                     String groupName = parts[1];
                     clients.sendVoiceMessageToGroup(groupName, clientName);
+                }else if (message.startsWith("SENDPRIVATEAUDIO")){
+                    String[] parts = message.split(",", 3);
+                    String receiverUser = parts[1];
+                    clients.sendPrivateVoiceMessage(clientName, receiverUser);
                 } else {
                     clients.broadcastMessage(clientName + ": " + message);
                 }

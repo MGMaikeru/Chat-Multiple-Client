@@ -37,7 +37,8 @@ public class Client {
             System.out.println("Para crear un grupo, use el formato 'CREATEGROUP,<nombre_del_grupo>'");
             System.out.println("Para salir de un grupo, use el formato 'LEAVEGROUP,<nombre_del_grupo>'");
             System.out.println("Para enviar un mensaje a un grupo, use el formato 'SENDTOGROUP,<nombre_del_grupo>,<mensaje>'");
-            System.out.println("Para enviar un audio a un grupo, use el formato 'SENDAUDIO,<nombre_del_grupo>'");
+            System.out.println("Para enviar un audio a un grupo, use el formato 'SENDAUDIOTOGROUP,<nombre_del_grupo>'");
+            System.out.println("Para enviar un audio privado, use el formato 'SENDPRIVATEAUDIO,<nombre_del_usuario>'");
             while (true) {
                 String input = userInput.readLine();
                 if (input.equalsIgnoreCase("exit")) {
