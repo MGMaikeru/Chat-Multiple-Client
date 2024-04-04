@@ -7,7 +7,7 @@ import java.util.*;
 public class ClientHandler implements Runnable {
     private Socket clientSocket;
     private BufferedReader in;
-    private PrintWriter out;
+    private static PrintWriter out;
     private String clientName;
     private Chatters clients;
     private AudioRecorderPlayer audioPlayer;
@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
                     return;
                 }
                 synchronized (clientName) {
-                    if (!clientName.isBlank() && !clients.existsUser(clientName)) {
+                    if (!clientName.isBlank()) {
                         clients.broadcastMessage(clientName + " se ha unido al chat.");
                         out.println("NAMEACCEPTED " + clientName);
                         clients.addUser(clientName, out);
@@ -76,6 +76,9 @@ public class ClientHandler implements Runnable {
                     String receiverUser = parts[1];
                     String content = parts[2];
                     clients.sendPrivateMessage(clientName, receiverUser, content);
+                }else if(message.startsWith("HISTORY")){
+                    out.println("---------");
+                    load(clientSocket, clients);
                 } else {
                     clients.broadcastMessage(clientName + ": " + message);
                 }
@@ -92,6 +95,12 @@ public class ClientHandler implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void load(Socket socket, Chatters clients) throws IOException{
+        out = new PrintWriter(socket.getOutputStream(), true);
+        out.println(clients.getAllHistory().toString());
+    
     }
 }
 

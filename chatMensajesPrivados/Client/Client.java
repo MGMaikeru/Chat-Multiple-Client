@@ -6,6 +6,7 @@ import java.net.Socket;
 public class Client {
     private static final String SERVER_IP = "127.0.0.1";
     private static final int PORT = 6789;
+    private PrintWriter out;
 
     public static void main(String[] args) {
         try {
@@ -39,7 +40,8 @@ public class Client {
             System.out.println("Para enviar un mensaje a un grupo, use el formato 'SENDTOGROUP,<nombre_del_grupo>,<mensaje>'");
             System.out.println("Para enviar un audio a un grupo, use el formato 'SENDAUDIOTOGROUP,<nombre_del_grupo>'");
             System.out.println("Para enviar un audio privado, use el formato 'SENDPRIVATEAUDIO,<nombre_del_usuario>'");
-            System.out.println("Para enviar un mensaje privado, use el formato 'SENDPRIVATEMESSAGE,<nombre_del_usuario>,<mensaje>'");
+            System.out.println("Para enviar un mensaje privado, use el formato 'SENDPRIVATETEXT,<nombre_del_usuario>,<mensaje>'");
+            System.out.println("Para ver el historial, use el formato 'HISTORY' ");
             while (true) {
                 String input = userInput.readLine();
                 if (input.equalsIgnoreCase("exit")) {
@@ -57,4 +59,5 @@ public class Client {
             e.printStackTrace();
         }
     }
+
 }

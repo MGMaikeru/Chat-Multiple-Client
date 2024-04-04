@@ -5,6 +5,7 @@ import java.util.*;
 public class Chatters {
     private final Set<Person> clientes = new HashSet<>();
     private Map<String, Set<Person>> groups = new HashMap<>();
+    private StringBuilder allHistory = new StringBuilder();
 
     public Chatters() {
     }
@@ -18,6 +19,15 @@ public class Chatters {
         return false;
     }
 
+    public Person getUser(String name) {
+        for (Person p : clientes) {
+            if (name.equals(p.getName())) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public boolean existsGroup(String groupName) {
         return groups.containsKey(groupName);
     }
@@ -26,6 +36,8 @@ public class Chatters {
         if (!name.isBlank() && !existsUser(name)) {
             Person p = new Person(name, out);
             clientes.add(p);
+        }else{
+            getUser(name);
         }
     }
 
@@ -67,6 +79,7 @@ public class Chatters {
             for (Person p : groupMembers) {
                 p.getOut().println("[Group: " + groupName + ", Sender: " + senderName + "]: " + message);
             }
+            allHistory.append("[Group: " + groupName + ", Sender: " + senderName + "]: " + message + "\n");
         }
     }
 
@@ -77,14 +90,15 @@ public class Chatters {
                 break;
             }
         }
+        allHistory.append("[Private from " + senderName + " to " + recipientName + "]: " + message + "\n");
     }
 
     public void broadcastMessage(String message){
-
         for (Person p: clientes) {
             p.getOut().println(message);
         }
-   }
+        allHistory.append(message + "\n");
+    }
 
     public void sendVoiceMessageToGroup(String groupName, String senderName){
         ByteArrayOutputStream byteArrayOutputStream = null;
@@ -126,6 +140,10 @@ public class Chatters {
             }
         }
 
+    }
+
+    public StringBuilder getAllHistory() {
+        return allHistory;
     }
 
 
