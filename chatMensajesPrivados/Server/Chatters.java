@@ -1,4 +1,7 @@
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -79,7 +82,14 @@ public class Chatters {
             for (Person p : groupMembers) {
                 p.getOut().println("[Group: " + groupName + ", Sender: " + senderName + "]: " + message);
             }
-            allHistory.append("[Group: " + groupName + ", Sender: " + senderName + "]: " + message + "\n");
+
+            String historyMessage = "[Group: " + groupName + ", Sender: " + senderName + "]: " + message + "\n";
+            allHistory.append(historyMessage);
+            try {
+                saveHistory(new StringBuilder(historyMessage));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,14 +100,26 @@ public class Chatters {
                 break;
             }
         }
-        allHistory.append("[Private from " + senderName + " to " + recipientName + "]: " + message + "\n");
+        String historyMessage = "[Private from " + senderName + " to " + recipientName + "]: " + message + "\n";
+        allHistory.append(historyMessage);
+        try {
+            saveHistory(new StringBuilder(historyMessage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void broadcastMessage(String message){
         for (Person p: clientes) {
             p.getOut().println(message);
         }
-        allHistory.append(message + "\n");
+        String historyMessage = message + "\n";
+        allHistory.append(historyMessage);
+        try {
+            saveHistory(new StringBuilder(historyMessage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendVoiceMessageToGroup(String groupName, String senderName){
@@ -118,6 +140,13 @@ public class Chatters {
                     p.getOut().println("Reproduciendo");
                     p.getAudioRecorder().reproduceAudio(byteArrayOutputStream);
                 }
+            }
+            String historyMessage = "[Group: " + groupName + ", Sender: " + senderName + "] Audio" + "\n";
+            allHistory.append(historyMessage);
+            try {
+                saveHistory(new StringBuilder(historyMessage));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -140,6 +169,32 @@ public class Chatters {
             }
         }
 
+        String historyMessage = "[Private from " + senderName + "]: Audio " + "\n";
+        allHistory.append(historyMessage);
+        try {
+            saveHistory(new StringBuilder(historyMessage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static String folder = "history";
+    static String path = "history/allHistory.txt";
+
+    public static void saveHistory(StringBuilder allHistory) throws IOException {
+        File file = new File(path);
+        if (!file.exists()) {
+            File f = new File(folder);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
+            file.createNewFile();
+        }
+
+        FileWriter writer = new FileWriter(file, true); 
+        writer.write(allHistory.toString());
+        writer.flush();
+        writer.close();
     }
 
     public StringBuilder getAllHistory() {

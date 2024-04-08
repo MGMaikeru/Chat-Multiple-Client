@@ -1,0 +1,14 @@
+rafa se ha unido al chat.
+felipe se ha unido al chat.
+rafa: hola
+felipe: hola
+rafa: q tal?
+felipe: bien y tu?
+rafa: bien
+felipe ha abandonado el chat.
+rafa ha abandonado el chat.
+sofia se ha unido al chat.
+camilo se ha unido al chat.
+sofia: vea, ojo de loca no se equivoca
+camilo: que?
+sofia ha abandonado el chat.
