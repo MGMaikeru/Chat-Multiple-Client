@@ -1,0 +1,27 @@
+carlos se ha unido al chat.
+calos se ha unido al chat.
+lora se ha unido al chat.
+lora se ha unido al chat.
+lora ha abandonado el chat.
+lora ha abandonado el chat.
+carlos se ha unido al chat.
+carla se ha unido al chat.
+carlos ha abandonado el chat.
+carla ha abandonado el chat.
+nombre se ha unido al chat.
+nombra se ha unido al chat.
+nombra: sona,nombra
+nombra: mo,nombra
+[Private from nombre to nombre]: ¡Te has unido al grupo 'ma'!
+[Group: ma, Sender: nombre]: caca,nombre
+nombre ha abandonado el chat.
+nombra ha abandonado el chat.
+alejo se ha unido al chat.
+jo se ha unido al chat.
+falcao se ha unido al chat.
+[Private from falcao to falcao]: ¡Te has unido al grupo 'lamama'!
+[Group: lamama, Sender: falcao]: hola
+[Group: lamama, Sender: falcao] Audio
+jo: jo
+falcao ha abandonado el chat.
+alejo ha abandonado el chat.

@@ -1,49 +1,51 @@
+package Client;
+
 import javax.sound.sampled.*;
 import java.io.*;
 import java.net.*;
 
 public class PlayerRecording {
-    
+
     private AudioFormat format;
     private byte[] audioData; //datos de entrada
-	private SourceDataLine out;  //salida a la tarjeta de audio
+    private SourceDataLine out;  //salida a la tarjeta de audio
     private AudioInputStream in;
 
     public PlayerRecording(AudioFormat format) {
-        this.format=format;       
-   	}
+        this.format=format;
+    }
 
     public void initiateAudio(byte[] audioData) {
-		try {
+        try {
 
-			in = new AudioInputStream(new ByteArrayInputStream(audioData), format,
+            in = new AudioInputStream(new ByteArrayInputStream(audioData), format,
                     audioData.length / format.getFrameSize());
             // Abrir línea de salida de audio
             out = AudioSystem.getSourceDataLine(format);
             out.open(format);
             out.start(); // Comenzar la reproducción de audio
             playAudio();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	private void playAudio() {
-		byte[] buffer = new byte[1024];
+    private void playAudio() {
+        byte[] buffer = new byte[1024];
         int count;
-		try {
-			
+        try {
+
             System.out.println("Reproduciendo...");
-			while ((count = in.read(buffer)) != -1) {			
-					out.write(buffer, 0, count);				
-			}            
+            while ((count = in.read(buffer)) != -1) {
+                out.write(buffer, 0, count);
+            }
             out.drain();
             out.stop();
             out.close();
             in.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-	}
+    }
 }

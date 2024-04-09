@@ -1,7 +1,12 @@
-import java.io.ByteArrayOutputStream;
+package Server;
+
+import Client.Client;
+import Client.Lector;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -35,9 +40,9 @@ public class Chatters {
         return groups.containsKey(groupName);
     }
 
-    public void addUser(String name, PrintWriter out) {
+    public void addUser(String name, PrintWriter out, OutputStream soundOut) {
         if (!name.isBlank() && !existsUser(name)) {
-            Person p = new Person(name, out);
+            Person p = new Person(name, out, soundOut);
             clientes.add(p);
         }else{
             getUser(name);
@@ -61,18 +66,29 @@ public class Chatters {
         }
     }
 
-    public void addUserToGroup(String groupName, Person person) {
+    public void addUserToGroup(String groupName, String personname) {
         if (existsGroup(groupName)) {
-            Set<Person> groupMembers = groups.get(groupName);
-            groupMembers.add(person);
-            System.out.println(groupMembers.size());
+            for (Person p : clientes) {
+                if (personname.equals(p.getName())) {
+                    Set<Person> groupMembers=groups.get(groupName);
+                    groupMembers.add(p);
+                    groups.replace(groupName,groupMembers);
+                }
+            }
         }
     }
 
-    public void removeUserFromGroup(String groupName, Person person) {
+    public void removeUserFromGroup(String groupName, String  personame) {
+
         if (existsGroup(groupName)) {
-            Set<Person> groupMembers = groups.get(groupName);
-            groupMembers.remove(person);
+            Person personToRemove = null;
+            Set<Person>groupMembers= groups.get(groupName);
+            for (Person person : groupMembers) {
+                if (person.getName().equals(personame)) {
+                    personToRemove = person;
+                }
+            }
+            groupMembers.remove(personToRemove);
         }
     }
 
@@ -122,24 +138,16 @@ public class Chatters {
         }
     }
 
-    public void sendVoiceMessageToGroup(String groupName, String senderName){
-        ByteArrayOutputStream byteArrayOutputStream = null;
-        for (Person p: clientes) {
-            if (senderName == p.getName()){
-                p.getOut().println("Grabando...");
-                byteArrayOutputStream = p.getAudioRecorder().recordAudio();
-                p.getOut().println("Grabacion terminada");
-            }
-        }
+    public void sendVoiceMessageToGroup(String standar, String groupName, String senderName, String bytes) throws IOException{
 
         if (existsGroup(groupName)) {
             Set<Person> groupMembers = groups.get(groupName);
             for (Person p : groupMembers) {
-                if (!p.getName().equals(senderName)){
-                    p.getOut().println("[Group: " + groupName + ", Sender: " + senderName + "] Audio:");
-                    p.getOut().println("Reproduciendo");
-                    p.getAudioRecorder().reproduceAudio(byteArrayOutputStream);
-                }
+                    p.getOut().println("[audio from " + senderName + "] ");
+                    //enviar
+                    String novo= standar+","+bytes;
+                    p.getOut().println(novo);
+                    p.getOut().flush();
             }
             String historyMessage = "[Group: " + groupName + ", Sender: " + senderName + "] Audio" + "\n";
             allHistory.append(historyMessage);
@@ -152,20 +160,14 @@ public class Chatters {
 
     }
 
-    public void sendPrivateVoiceMessage(String senderName, String recipientName){
-        ByteArrayOutputStream byteArrayOutputStream = null;
-        for (Person p: clientes) {
-            if (senderName == p.getName()){
-                p.getOut().println("Grabando...");
-                byteArrayOutputStream = p.getAudioRecorder().recordAudio();
-                p.getOut().println("Grabacion terminada");
-            }
-        }
+    public void sendPrivateVoiceMessage(String standar,String senderName, String recipientName, String bytes) throws IOException{
         for (Person p : clientes) {
             if (recipientName.equals(p.getName())) {
                 p.getOut().println("[Private audio from " + senderName + "] ");
-                p.getOut().println("Reproduciendo");
-                p.getAudioRecorder().reproduceAudio(byteArrayOutputStream);
+                //enviar
+                String novo= standar+","+bytes;
+                p.getOut().println(novo);
+                p.getOut().flush();
             }
         }
 
@@ -191,7 +193,7 @@ public class Chatters {
             file.createNewFile();
         }
 
-        FileWriter writer = new FileWriter(file, true); 
+        FileWriter writer = new FileWriter(file, true);
         writer.write(allHistory.toString());
         writer.flush();
         writer.close();

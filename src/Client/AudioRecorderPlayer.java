@@ -1,3 +1,4 @@
+package Client;
 import javax.sound.sampled.*;
 import java.io.*;
 
@@ -34,11 +35,11 @@ public class AudioRecorderPlayer {
         return byteArrayOutputStream;
     }
 
-    public void reproduceAudio(ByteArrayOutputStream byteArrayOutputStream){
+    public void reproduceAudio(byte[] bytes) throws IOException{
         // Reproducir el audio grabado
-        byte[] audioData = byteArrayOutputStream.toByteArray();
         PlayerRecording player = new PlayerRecording(format);
-        player.initiateAudio(audioData);
+        player.initiateAudio(bytes);
     }
-    
+
 }
+
